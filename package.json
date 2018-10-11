@@ -1,0 +1,45 @@
+{
+  "name": "shuvi",
+  "version": "2.0.0",
+  "description": "Discord Bot utilizing functions for an Blade & Soul Clan",
+  "main": "shuvi.js",
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "tsc": "tsc",
+    "build": "npm run clean && npm run tsc",
+    "start": "npm run build && node ./dist/shuvi.js",
+    "forever": "forever start -o output.txt -e err.txt ./dist/shuvi.js"
+  },
+  "keywords": [
+    "Discord",
+    "Bot",
+    "BnS",
+    "Blade & Soul"
+  ],
+  "engines": {
+    "node": "8.12.x",
+    "npm": "6.1.x"
+  },
+  "author": "Tobias 'Akizo' K.",
+  "license": "https://shuvi.wasted-penguinz.eu/license/",
+  "dependencies": {
+    "@types/cheerio": "^0.22.9",
+    "@types/mysql": "^2.15.5",
+    "@types/request": "^2.47.1",
+    "@types/request-promise-native": "^1.0.15",
+    "chalk": "^2.4.1",
+    "cheerio": "^1.0.0-rc.2",
+    "discord.js": "^11.4.2",
+    "fs": "0.0.1-security",
+    "mysql": "^2.16.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.5",
+    "twitter": "^1.7.1"
+  },
+  "repository": {
+    "url": "https://github.com/Mythen96/Shuvi"
+  },
+  "bugs": {
+    "url": "https://github.com/Mythen96/Shuvi/issues"
+  }
+}
