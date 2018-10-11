@@ -21,7 +21,7 @@
     "npm": "6.1.x"
   },
   "author": "Tobias 'Akizo' K.",
-  "license": "https://shuvi.wasted-penguinz.eu/license/",
+  "license": "MITNFA",
   "dependencies": {
     "@types/cheerio": "^0.22.9",
     "@types/mysql": "^2.15.5",
