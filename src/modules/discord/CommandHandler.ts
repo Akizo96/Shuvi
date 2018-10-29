@@ -16,7 +16,7 @@ class CommandHandler {
         ['char', {onlyDM: false, class: Char, param: '[name]', desc: 'Shows information about a Blade & Soul Character', isAdmin: false}],
         ['birthday', {onlyDM: false, class: Birthday, param: '[day] [month] [year]', desc: '', isAdmin: false}],
         ['admin', {onlyDM: true, class: Admin, param: '', desc: '', isAdmin: true}],
-        ['craffle', {onlyDM: false, class: Raffle, param: '', desc: '', isAdmin: true}]
+        ['craffle', {onlyDM: false, class: Raffle, param: '', desc: '', isAdmin: false}]
     ]);
 
     public static async handle(msg: DiscordJS.Message) {

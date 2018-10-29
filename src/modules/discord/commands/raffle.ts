@@ -40,7 +40,7 @@ class Raffle {
                 messageID: ''
             });
 
-            msg.reply(`Sweet! The giveaway will be on ${guild.name}! Next, what server do you want the giveaway in?\n\n\`Please type the name of a channel in your selected server.\``).catch(() => {
+            msg.reply(`Sweet! The giveaway will be on ${guild.name}! Next, what channel do you want the giveaway in?\n\n\`Please type the name of a channel in your selected server.\``).catch(() => {
                 Log.write('Discord', `Couldn't send message`);
             });
 

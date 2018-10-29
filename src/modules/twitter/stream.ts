@@ -14,7 +14,7 @@ class Stream {
     });
 
     public static async load() {
-        if (Twitter.connected) return;
+        //if (Twitter.connected) return;
         this.handle.stream('statuses/filter', {
             follow: Config.twitter.users,
             tweet_mode: 'extended'
@@ -22,7 +22,6 @@ class Stream {
             Log.write('Twitter', `Connection established`);
             Twitter.connected = true;
             stream.on('data', (tweet) => {
-                console.log(tweet);
                 Log.write('Twitter', `Processing Tweet...`);
                 if (this.isReply(tweet)) {
                     Log.write('Twitter', `Tweet is an answer, stopped processing.`);
@@ -80,34 +79,34 @@ class Stream {
             });
 
             stream.on('error', (error) => {
-                if (!Twitter.connected) return;
+                //if (!Twitter.connected) return;
                 Twitter.connected = false;
                 console.error(error);
                 Log.write('Twitter', 'Error occurred. Trying to reconnect...');
                 setTimeout(() => {
-                    Stream.load().catch((err) => {
+                    Stream.load().catch(() => {
                     });
                 }, 15000);
             });
 
             stream.on('disconnect', (msg) => {
-                if (!Twitter.connected) return;
+                //if (!Twitter.connected) return;
                 Twitter.connected = false;
                 console.error(msg);
                 Log.write('Twitter', 'Disconnected. Trying to reconnect...');
                 setTimeout(() => {
-                    Stream.load().catch((err) => {
+                    Stream.load().catch(() => {
                     });
                 }, 15000);
             });
 
             stream.on('end', (msg) => {
-                if (!Twitter.connected) return;
+                //if (!Twitter.connected) return;
                 Twitter.connected = false;
                 console.error(msg);
                 Log.write('Twitter', 'Stream Ended. Trying to reconnect...');
                 setTimeout(() => {
-                    Stream.load().catch((err) => {
+                    Stream.load().catch(() => {
                     });
                 }, 15000);
             });

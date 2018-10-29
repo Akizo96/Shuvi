@@ -29,12 +29,14 @@ async function boot() {
         shutdown();
     });
 
-    Twitter.load().catch((err) => {
-        Log.write('Twitter', chalk.red('Connection failed'));
-        Log.write('Twitter', chalk.red(err));
-        shutdown();
-    });
-    
+    if (Config.twitter.active) {
+        Twitter.load().catch((err) => {
+            Log.write('Twitter', chalk.red('Connection failed'));
+            Log.write('Twitter', chalk.red(err));
+            shutdown();
+        });
+    }
+
     Birthday.load();
     Raffles.load();
 }
