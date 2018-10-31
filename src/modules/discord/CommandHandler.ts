@@ -7,6 +7,7 @@ import {Char} from "./commands/char";
 import {Birthday} from "./commands/birthday";
 import {Admin} from "./commands/admin";
 import {Raffle} from "./commands/raffle";
+import {VortexTemple} from "./commands/vt";
 
 //</Commands>
 
@@ -16,14 +17,15 @@ class CommandHandler {
         ['char', {onlyDM: false, class: Char, param: '[name]', desc: 'Shows information about a Blade & Soul Character', isAdmin: false}],
         ['birthday', {onlyDM: false, class: Birthday, param: '[day] [month] [year]', desc: '', isAdmin: false}],
         ['admin', {onlyDM: true, class: Admin, param: '', desc: '', isAdmin: true}],
-        ['craffle', {onlyDM: false, class: Raffle, param: '', desc: '', isAdmin: false}]
+        ['craffle', {onlyDM: false, class: Raffle, param: '', desc: '', isAdmin: false}],
+        ['vt', {onlyDM: false, class: VortexTemple, param: '[start/stop] [raidNr]', desc: 'Creates/Deletes channels for a Vortex Temple Raid', isAdmin: true}]
     ]);
 
     public static async handle(msg: DiscordJS.Message) {
         if (msg.content[0] !== Config.prefix) return;
         let isDM: boolean = msg.channel.type === 'dm';
-        
-        if(!isDM && Config.commandChannels.get(msg.guild.id) !== msg.channel.id) return;
+
+        if (!isDM && Config.commandChannels.get(msg.guild.id) !== msg.channel.id) return;
         const args = msg.content.slice(Config.prefix.length).trim().split(/ +/g);
         const cmd = args.shift().toLowerCase();
 

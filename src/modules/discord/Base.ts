@@ -43,39 +43,41 @@ class Discord {
     private static async incomingMessage(msg) {
         if (msg.author.bot) return; // Do not do anything on messages from Bots
 
-        let isDM = (msg.channel.type === 'dm');
-        MySQL.pool.query(`INSERT INTO \`${Tables.MESSAGE}\`(\`messageID\`,\`serverID\`,\`channelID\`,\`server\`,\`channel\`,\`author\`,\`authorTag\`,\`message\`,\`time\`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
-            msg.id,
-            (isDM) ? msg.author.id : msg.guild.id,
-            (isDM) ? msg.author.id : msg.channel.id,
-            (isDM) ? `DirectMessage (${msg.author.username})` : msg.guild.name,
-            (isDM) ? `DirectMessage (${msg.author.username})` : msg.channel.name,
-            (isDM) ? msg.author.username : ((msg.member.nickname !== null) ? msg.member.nickname : msg.author.username),
-            msg.author.tag,
-            msg.content,
-            new Date()
-        ], (err, res) => {
-            if (err) console.error(err);
-            msg.attachments.forEach((v, k, m) => {
-                MySQL.pool.query(`INSERT INTO \`${Tables.MESSAGE_ATTACHMENT}\`(\`messageID\`,\`attachmentID\`,\`filename\`,\`filesize\`,\`proxy\`,\`url\`) VALUES(?, ?, ?, ?, ?, ?)`, [
-                    msg.id,
-                    v.id,
-                    v.filename,
-                    v.filesize,
-                    v.proxyURL,
-                    v.url
-                ], (err) => {
+        if (Config.logMessages) {
+            let isDM = (msg.channel.type === 'dm');
+            MySQL.pool.query(`INSERT INTO \`${Tables.MESSAGE}\`(\`messageID\`,\`serverID\`,\`channelID\`,\`server\`,\`channel\`,\`author\`,\`authorTag\`,\`message\`,\`time\`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+                msg.id,
+                (isDM) ? msg.author.id : msg.guild.id,
+                (isDM) ? msg.author.id : msg.channel.id,
+                (isDM) ? `DirectMessage (${msg.author.username})` : msg.guild.name,
+                (isDM) ? `DirectMessage (${msg.author.username})` : msg.channel.name,
+                (isDM) ? msg.author.username : ((msg.member.nickname !== null) ? msg.member.nickname : msg.author.username),
+                msg.author.tag,
+                msg.content,
+                new Date()
+            ], (err, res) => {
+                if (err) console.error(err);
+                msg.attachments.forEach((v, k, m) => {
+                    MySQL.pool.query(`INSERT INTO \`${Tables.MESSAGE_ATTACHMENT}\`(\`messageID\`,\`attachmentID\`,\`filename\`,\`filesize\`,\`proxy\`,\`url\`) VALUES(?, ?, ?, ?, ?, ?)`, [
+                        msg.id,
+                        v.id,
+                        v.filename,
+                        v.filesize,
+                        v.proxyURL,
+                        v.url
+                    ], (err) => {
+                        if (err) console.error(err);
+                    });
+                });
+
+                MySQL.pool.query(`UPDATE \`${Tables.MESSAGE}\` SET \`attachments\` = ? WHERE \`messageID\` = ?`, [
+                    msg.attachments.size,
+                    msg.id
+                ], function (err) {
                     if (err) console.error(err);
                 });
             });
-
-            MySQL.pool.query(`UPDATE \`${Tables.MESSAGE}\` SET \`attachments\` = ? WHERE \`messageID\` = ?`, [
-                msg.attachments.size,
-                msg.id
-            ], function (err) {
-                if (err) console.error(err);
-            });
-        });
+        }
 
         await CommandHandler.handle(msg);
     }
